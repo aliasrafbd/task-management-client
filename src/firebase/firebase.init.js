@@ -5,15 +5,15 @@ import { initializeApp } from "firebase/app";
 
 import { getAuth } from "firebase/auth";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAzpVXNdwO55xirVlETAFSXo4dnQMgdwW8",
-  authDomain: "chakoria-shop.firebaseapp.com",
-  projectId: "chakoria-shop",
-  storageBucket: "chakoria-shop.firebasestorage.app",
-  messagingSenderId: "223927449237",
-  appId: "1:223927449237:web:ec460d13e05eb61a6ccd9c"
+  apiKey: import.meta.env.VITE_apiKey,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_appId,
 };
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
