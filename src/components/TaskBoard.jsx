@@ -14,7 +14,7 @@ const TaskBoard = ({ user }) => {
     // const { data: tasks = [] } = useQuery({
     //     queryKey: ["tasks"],
     //     queryFn: async () => {
-    //         const res = await axios.get(`http://localhost:5000/tasks`);
+    //         const res = await axios.get(`https://task-management-server-henna.vercel.app/tasks`);
     //         return res.data;
     //     }
     // });
@@ -23,7 +23,7 @@ const TaskBoard = ({ user }) => {
 
     const updateTask = useMutation({
         mutationFn: async (task) => {
-            await axios.put(`http://localhost:5000/tasks/${task._id}`, task);
+            await axios.put(`https://task-management-server-henna.vercel.app/tasks/${task._id}`, task);
         },
         onSuccess: () => {
             queryClient.invalidateQueries(["tasks", user.email]);

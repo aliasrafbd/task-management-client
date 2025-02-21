@@ -8,7 +8,7 @@ A simple and efficient task management application that allows users to organize
 ✅ Done – Completed tasks.
 
 ## 🚀 Live Link
-🔗 Live Application (Replace with actual link)
+🔗 🔗 **[Live Link](https://task-management-21-02-25.netlify.app/)**  
 
 ## 📦 Dependencies
 - This project uses the following dependencies:

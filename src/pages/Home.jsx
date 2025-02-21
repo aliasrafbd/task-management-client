@@ -77,7 +77,7 @@ const Home = () => {
             const sortedTasks = arrayMove(sameCategoryTasks, oldIndex, newIndex);
 
             try {
-                await axios.put("http://localhost:5000/alltasks/sort", {
+                await axios.put("https://task-management-server-henna.vercel.app/alltasks/sort", {
                     category: oldCategory,
                     sortedTasks: sortedTasks.map(task => ({ _id: task._id })),
                 });
