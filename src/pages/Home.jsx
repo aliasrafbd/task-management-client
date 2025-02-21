@@ -1,21 +1,22 @@
 import { useContext, useEffect, useState } from "react";
 import { DndContext, closestCorners } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
+import { useQueryClient } from "@tanstack/react-query"; // ✅ Import useQueryClient
 import axiosPublic from "../hooks/useAxiosPublic";
 import DroppableColumn from "../components/DroppableColumn";
 import AddTask from "../components/AddTask";
 import { AuthContext } from "../providers/AuthProvider";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import axios from "axios";
-import TaskSummary from "../components/TaskSummary";
 import TaskChart from "../components/TaskChart";
 import LoginLogout from "../components/LoginLogout";
 
 const categories = ["To-Do", "In Progress", "Done"];
 
 const Home = () => {
-    const { user, tasks, tasksRefetch } = useContext(AuthContext); // Get user from AuthContext
+    const { user, tasks, tasksRefetch } = useContext(AuthContext); 
     const axiosPublic = useAxiosPublic();
+    const queryClient = useQueryClient(); 
 
     const [selectedTask, setSelectedTask] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -62,6 +63,7 @@ const Home = () => {
                 await axiosPublic.put(`/taskscategory/${activeId}`, { category: newCategory });
                 console.log("✅ Task moved to a new category:", newCategory);
                 tasksRefetch(); // Refresh tasks after moving
+                queryClient.invalidateQueries(["taskCounts"]); // ✅ Refetch task chart data
             } catch (error) {
                 console.error("❌ Error updating task category:", error);
             }
@@ -96,6 +98,7 @@ const Home = () => {
         try {
             await axiosPublic.delete(`/tasks/${taskId}`);
             tasksRefetch();
+            queryClient.invalidateQueries(["taskCounts"]); // ✅ Refetch task chart data
         } catch (error) {
             console.error("Error deleting task:", error);
         }
