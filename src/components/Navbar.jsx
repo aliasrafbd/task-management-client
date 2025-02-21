@@ -16,7 +16,7 @@ const Navbar = () => {
     return (
         <>
             <div className='max-w-7xl mx-auto py-4 flex justify-center'>
-                <div className='font-extrabold text-3xl'>
+                <div className='font-extrabold text-center md:mb-0 mb-4 text-3xl'>
                     <h1>Task Management Application</h1>
                 </div>
             </div>

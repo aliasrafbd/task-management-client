@@ -118,7 +118,7 @@ const Home = () => {
             <TaskChart />
             <AddTask refreshTasks={tasksRefetch} />
             <DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-4">
                     {categories.map(category => (
                         <DroppableColumn
                             key={category}
