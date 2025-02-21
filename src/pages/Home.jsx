@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { DndContext, closestCorners } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
-import { useQueryClient } from "@tanstack/react-query"; // ✅ Import useQueryClient
+import { useQueryClient } from "@tanstack/react-query"; 
 import axiosPublic from "../hooks/useAxiosPublic";
 import DroppableColumn from "../components/DroppableColumn";
 import AddTask from "../components/AddTask";
@@ -45,11 +45,9 @@ const Home = () => {
         console.log("Active ID:", activeId);
         console.log("Over ID:", overId);
 
-        // Find the dragged task
         const draggedTask = tasks.find((task) => task._id === activeId);
         if (!draggedTask) return;
 
-        // Check if dragging to a new category
         const newCategory = categories.find((cat) => cat.trim() === over.id.trim());
         const oldCategory = draggedTask.category;
 
@@ -57,20 +55,15 @@ const Home = () => {
         console.log("Old Category:", oldCategory);
 
         if (newCategory && newCategory !== oldCategory) {
-            console.log("🛠 Moving task to a new category:", newCategory);
-
             try {
                 await axiosPublic.put(`/taskscategory/${activeId}`, { category: newCategory });
-                console.log("✅ Task moved to a new category:", newCategory);
-                tasksRefetch(); // Refresh tasks after moving
-                queryClient.invalidateQueries(["taskCounts"]); // ✅ Refetch task chart data
+                tasksRefetch();
+                queryClient.invalidateQueries(["taskCounts"]); 
             } catch (error) {
-                console.error("❌ Error updating task category:", error);
             }
             return;
         }
 
-        // If reordering within the same category
         const sameCategoryTasks = tasks.filter(task => task.category === oldCategory);
         const oldIndex = sameCategoryTasks.findIndex(task => task._id === activeId);
         const newIndex = sameCategoryTasks.findIndex(task => task._id === overId);
@@ -83,28 +76,22 @@ const Home = () => {
                     category: oldCategory,
                     sortedTasks: sortedTasks.map(task => ({ _id: task._id })),
                 });
-
-                console.log("✅ Tasks reordered successfully!");
                 tasksRefetch();
             } catch (error) {
-                console.error("❌ Error sorting tasks:", error);
             }
         }
     };
 
-    // ✅ Handle Task Deletion
     const handleDeleteTask = async (taskId) => {
         console.log("want to delete task");
         try {
             await axiosPublic.delete(`/tasks/${taskId}`);
             tasksRefetch();
-            queryClient.invalidateQueries(["taskCounts"]); // ✅ Refetch task chart data
+            queryClient.invalidateQueries(["taskCounts"]); 
         } catch (error) {
-            console.error("Error deleting task:", error);
         }
     };
 
-    // 🚀 If user is NOT logged in, show only LoginLogout
     if (!user) {
         return (
             <div className="flex flex-col justify-center items-center h-screen">

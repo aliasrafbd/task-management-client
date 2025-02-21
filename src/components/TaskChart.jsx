@@ -2,25 +2,23 @@ import { useQuery } from "@tanstack/react-query";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 
-const COLORS = ["#3498db", "#f1c40f", "#2ecc71"]; // Colors for To-Do, In Progress, Done
+const COLORS = ["#3498db", "#f1c40f", "#2ecc71"]; 
 
 const TaskChart = () => {
     const axiosPublic = useAxiosPublic();
 
-    // ✅ Fetch Task Counts
     const { data: taskCounts = {}, isLoading, isError } = useQuery({
         queryKey: ["taskCounts"],
         queryFn: async () => {
             const response = await axiosPublic.get("/tasks/count");
             return response.data;
         },
-        staleTime: 1000 * 60 * 5, // Cache data for 5 minutes
+        staleTime: 1000 * 60 * 5, 
     });
 
     if (isLoading) return <p>Loading task chart...</p>;
     if (isError) return <p className="text-red-500">Error loading task chart</p>;
 
-    // ✅ Format data for chart
     const chartData = [
         { name: "To-Do", value: taskCounts["To-Do"] || 0 },
         { name: "In Progress", value: taskCounts["In Progress"] || 0 },

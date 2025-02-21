@@ -8,12 +8,10 @@ const SortableItem = ({ task, onDelete }) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const { tasksRefetch } = useContext(AuthContext);
 
-    // 🟢 Add useSortable for drag functionality
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ 
         id: task._id 
     });
 
-    // Apply drag styles
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
@@ -34,11 +32,11 @@ const SortableItem = ({ task, onDelete }) => {
             ref={setNodeRef}
             style={style}
             className="flex justify-between items-center p-2 border rounded bg-white cursor-grab"
-            {...attributes} // ✅ Drag functionality remains
+            {...attributes} 
             {...listeners}  
             onPointerDownCapture={(event) => {
                 if (event.target.closest("[data-no-dnd]")) {
-                    event.stopPropagation(); // ✅ Prevent dragging when clicking Edit/Delete
+                    event.stopPropagation(); 
                 }
             }}
         >

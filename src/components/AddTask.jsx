@@ -10,7 +10,7 @@ import LoginLogout from "./LoginLogout";
 const categories = ["To-Do", "In Progress", "Done"];
 
 const AddTask = ({ refreshTasks }) => {
-    const [isOpen, setIsOpen] = useState(false); // State for modal visibility
+    const [isOpen, setIsOpen] = useState(false); 
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const axiosPublic = useAxiosPublic();
 
@@ -24,9 +24,9 @@ const AddTask = ({ refreshTasks }) => {
                 category: data.category,
             });
 
-            reset(); // Clear form after submission
-            refreshTasks(); // Refresh task list
-            setIsOpen(false); // Close modal after submission
+            reset(); 
+            refreshTasks(); 
+            setIsOpen(false); 
         } catch (error) {
             console.error("Error adding task:", error);
         }
@@ -34,7 +34,7 @@ const AddTask = ({ refreshTasks }) => {
 
     return (
         <div className="pt-12 rounded-md">
-            {/* Button to Open Modal */}
+            
             <div className="bg-amber-200 p-4 flex items-center justify-between">
                 <div>
                     <button onClick={() => setIsOpen(true)} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
@@ -44,7 +44,7 @@ const AddTask = ({ refreshTasks }) => {
                 <LoginLogout></LoginLogout>
             </div>
 
-            {/* DaisyUI Modal */}
+            
             {isOpen && (
                 <dialog open className="modal">
                     <div className="modal-box">
