@@ -18,7 +18,6 @@ const AuthProvider = ({ children }) => {
     const { data: tasks = [], isLoading, refetch:tasksRefetch, error } = useQuery({
         queryKey: ["tasks"],
         queryFn: async () => {
-            console.log("API hit with search:");
             const response = await axiosPublic.get(`/tasks`);
             return response.data;
         },

@@ -1,52 +1,61 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../providers/AuthProvider';
-import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import useAxiosPublic from '../hooks/useAxiosPublic';
+import Swal from 'sweetalert2';
 
 const LoginWithGoogle = () => {
-
-    const { user, loading, googleLogIn } = useContext(AuthContext);
-
+    const { googleLogIn } = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
-
     const navigate = useNavigate();
 
     const handleLoginGoogle = () => {
-
         googleLogIn()
             .then(res => {
-                console.log(res.user);
                 const userInfo = {
+                    uid: res.user.uid, // Firebase User ID
                     name: res.user.displayName,
                     email: res.user.email,
-                }
+                };
 
                 axiosPublic.post('/users', userInfo)
                     .then(res => {
-                        console.log(res.data);
+                        if (res.data.insertedId) {
+                            Swal.fire({
+                                title: 'Success',
+                                text: 'Login successful!',
+                                icon: 'success',
+                                timer: 1000,
+                                showConfirmButton: false,
+                                timerProgressBar: true,
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Welcome Back!',
+                                text: '',
+                                icon: 'info',
+                                timer: 1000,
+                                showConfirmButton: false,
+                                timerProgressBar: true,
+                            });
+                        }
                         navigate('/');
-                    })
-
-                        Swal.fire({
-                            title: 'Logging in',
-                            text: 'Please wait while we process your request.',
-                            icon: 'info',
-                            timer: 1000,
-                            showConfirmButton: false,
-                            timerProgressBar: true,
-                        });
-
-                        navigate("/");
-                    })
-
-            };
-
-        return (
-            <div>
-                <button onClick={handleLoginGoogle} className='text-center block w-full my-4'>Login</button>
-            </div>
-        );
+                    });
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: 'Error',
+                    text: error.message,
+                    icon: 'error',
+                });
+            });
     };
 
-    export default LoginWithGoogle;
+    return (
+        <div>
+            <button onClick={handleLoginGoogle} className='text-center block w-full my-4'>Login</button>
+        </div>
+    );
+};
+
+export default LoginWithGoogle;
